@@ -24,8 +24,8 @@ Follow these simple steps to run the project on your computer 👇
 
 ### 1️⃣ Clone this project
 ```bash
-git clone https://github.com/your-username/product-management-app.git
-cd product-management-app
+git clone https://github.com/meghana-wq/product-table
+cd product-table
 
 ```bash
 npm run dev
