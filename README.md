@@ -52,6 +52,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Screenshots
 
-![Screenshot 1](./screenshot1.png)
-![Screenshot 2](./screenshot2.png)
+![Screenshot 22](./Screenshot%20(22).png)
+![Screenshot 23](./Screenshot%20(23).png)
+
 
