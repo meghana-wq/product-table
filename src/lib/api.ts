@@ -37,7 +37,7 @@ export async function addProduct(data: Omit<Product, "id">): Promise<Product> {
   return newProduct;
 }
 
-
+// Update a product
 export async function updateProduct(id: string, data: Partial<Product>): Promise<Product | undefined> {
   const products = loadProducts().map(p =>
     p.id === id ? { ...p, ...data } : p
@@ -47,12 +47,12 @@ export async function updateProduct(id: string, data: Partial<Product>): Promise
   return products.find(p => p.id === id);
 }
 
-
+// Soft delete a product
 export async function deleteProduct(id: string): Promise<boolean> {
   const products = loadProducts().map(p =>
     p.id === id ? { ...p, deleted: true } : p
   );
-  saveProducts(products); 
+  saveProducts(products); // Keep in localStorage
   console.log("Product Soft Deleted (id: " + id + "):", products.find(p => p.id === id));
   return true;
 }
