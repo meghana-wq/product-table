@@ -3,52 +3,56 @@ export interface Product {
   name: string;
   price: number;
   stock: number;
-  deleted?: boolean;
+  deleted?: boolean; 
 }
 
 
 function loadProducts(): Product[] {
   const stored = localStorage.getItem("products");
-  return stored ? JSON.parse(stored) : [];
+  const products: Product[] = stored ? JSON.parse(stored) : [];
+  console.log("Loaded products from localStorage:", products);
+  return products;
 }
 
 
 function saveProducts(products: Product[]) {
   localStorage.setItem("products", JSON.stringify(products));
+  console.log("Saved products to localStorage:", products);
 }
 
-export async function getProducts() {
-  return loadProducts();
+
+export async function getProducts(): Promise<Product[]> {
+  const products = loadProducts().filter(p => !p.deleted);
+  console.log("Products fetched for table (non-deleted):", products);
+  return products;
 }
 
-export async function addProduct(data: Omit<Product, "id">) {
+
+export async function addProduct(data: Omit<Product, "id">): Promise<Product> {
   const products = loadProducts();
-  const newProduct = { ...data, id: Date.now().toString() };
+  const newProduct: Product = { ...data, id: Date.now().toString() };
   products.push(newProduct);
   saveProducts(products);
-  console.log(" Product Added:", newProduct);
-  console.log(" All Products:", products);
+  console.log("Product Added:", newProduct);
   return newProduct;
 }
 
-export async function updateProduct(id: string, data: Partial<Product>) {
-  const products = loadProducts().map((p) =>
+
+export async function updateProduct(id: string, data: Partial<Product>): Promise<Product | undefined> {
+  const products = loadProducts().map(p =>
     p.id === id ? { ...p, ...data } : p
   );
   saveProducts(products);
-  console.log("Product Updated:", id);
-  console.log(" All Products:", products);
-  return products.find((p) => p.id === id);
+  console.log("Product Updated (id: " + id + "):", data);
+  return products.find(p => p.id === id);
 }
 
-export async function deleteProduct(id: string) {
 
-  const products = loadProducts().map((p) =>
+export async function deleteProduct(id: string): Promise<boolean> {
+  const products = loadProducts().map(p =>
     p.id === id ? { ...p, deleted: true } : p
   );
-  saveProducts(products);
-  console.log(" Product Soft Deleted:", id);
-  console.log("All Products:", products);
+  saveProducts(products); 
+  console.log("Product Soft Deleted (id: " + id + "):", products.find(p => p.id === id));
   return true;
 }
-
